@@ -50,7 +50,7 @@ export default function CarouselNewReleases({ data }: { data: any}) {
                           </div>
 
                           <div className="border mt-2 flex w-full">
-                             <button className="p-2 bg-[#726a50] text-white">
+                             <button className="p-2 bg-[#af8b12] text-white">
                               <p className="text-sm md:text-md lg:text-[15px] font-medium">{book.saleInfo.saleability}</p>
                              </button>
                           </div>

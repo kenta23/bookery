@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className='h-auto mt-[45px] overflow-y-auto w-full px-24'>
+    <div className='h-auto mt-[45px] overflow-y-auto w-full px-12'>
          {/**FETCH ALL THE ALL NEW RELEASES BOOK */}
         
         <div className='w-full my-[40px]'>

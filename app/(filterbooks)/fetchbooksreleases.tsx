@@ -21,11 +21,11 @@ export default function FetchBookReleases ( { sortType }: { sortType: string}) {
     })
    
   return (
-    <div className="w-full h-auto">
-      <div className="grid grid-cols-4 gap-4 justify-between items-center ">
+    <div className="w-full border h-auto">
+      <div className="grid grid-cols-4 gap-6 items-start ">    
          {data?.data.items.map((item: Book) => (
-          <div key={item.id} className="card rounded-none aspect-square w-[250px] bg-white shadow-xl">
-            <figure className="w-full h-[300px]">
+          <div key={item.id} className="card mb-0 rounded-none w-[270px] max-h-[370px] bg-white shadow-xl">
+            <figure className="w-full min-h-[220px]">
               <Image
                 src={item.volumeInfo.imageLinks?.thumbnail}
                 alt={item.volumeInfo.title}
@@ -35,19 +35,17 @@ export default function FetchBookReleases ( { sortType }: { sortType: string}) {
               />
             </figure>
   
-            <div className="card-body">
-              <h2 className="card-title">{item.volumeInfo.title}</h2>
+            <div className="card-body mt-0 px-2">
+              <h2 className="card-title truncate text-ellipsis">{item.volumeInfo.title}</h2>
   
-              <p>Author</p>
-              <div className="mt-2 flex w-full">
+              <p>{item.volumeInfo.authors}</p>
+              <div className="mt-1 flex w-full">
                 <button className="p-2 bg-[#726a50] text-white">
                   <p className="text-sm md:text-md lg:text-[15px] font-medium">
                    {item.saleInfo.saleability}
                   </p>
                 </button>
               </div>
-  
-  
             </div>
           </div>
          ))}
@@ -95,9 +93,9 @@ function Paginate({ startIndex, setStartIndex, sort }: {
 
   return (
     <form action="">
-      <div className="join">
+      <div className="join ">
         <input
-          className="join-item btn btn-square"
+          className={`join-item btn btn-square`}
           type="radio"
           name="options"
           aria-label={isPending ? ".." : "1"}
