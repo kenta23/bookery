@@ -1,18 +1,19 @@
 import Script from 'next/script';
 import BookPreview from './bookPreview';
+import { BASE_URL } from '@/lib/utils';
+import { getBookById } from '@/lib/data';
 
-export default function Page({ params }: { params: { slug: string } }) {
+
+
+export default async function Page({ params }: { params: { slug: string } }) {
     const { slug } = params;
-
-    console.log(slug);
+   
+    const data = await getBookById(slug);
      
   return (
-    <div className='min-h-screen w-full'>
-        <p>{slug}</p>
-        <BookPreview />
-
-
+    <div className='min-h-screen  w-full'>
        
+        <BookPreview data={data}/>    
     </div>
   )
 }

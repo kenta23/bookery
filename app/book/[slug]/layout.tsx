@@ -1,10 +1,12 @@
 
-import Script from "next/script"
+import Booknavbar from "@/app/components/booknavbar"
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
    return (
-       <div> 
+       <section className="bg-[#F8F6EA]"> 
+           <Booknavbar />
            {children}    
-       </div>
+       </section>
    )
 }

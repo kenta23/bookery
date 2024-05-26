@@ -1,5 +1,5 @@
 import React from 'react'
-import CarouselMain from './carousel'
+import CarouselMain from '../carousel'
 import FetchBookReleases from '../fetchbooksreleases'
 import { Metadata } from 'next'
 

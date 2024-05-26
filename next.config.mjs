@@ -19,7 +19,8 @@ const nextConfig = {
                 hostname: "daisyui.com"
             }
         ]
-     }
+     },
+     
 };
 
 export default nextConfig;

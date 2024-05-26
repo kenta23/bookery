@@ -4,8 +4,8 @@ import { Metadata } from 'next'
 
 
 export const metadata: Metadata = {
-    title: "New releases",
-    description: "New releases books",
+    title: "Old releases",
+    description: "old releases books",
 }
 
 export default function Page() {

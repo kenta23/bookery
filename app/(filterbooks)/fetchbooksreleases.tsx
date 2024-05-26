@@ -7,6 +7,7 @@ import axios from 'axios'
 import Image from 'next/image'
 import { Book } from '@/types'
 import { getNewReleasesBooks, paginateNewReleaseBooks } from '@/lib/data'
+import Bookdisplaycards from '../components/bookdisplaycards'
 
 export default function FetchBookReleases ( { sortType }: { sortType: string}) {
 
@@ -15,41 +16,14 @@ export default function FetchBookReleases ( { sortType }: { sortType: string}) {
 
 
     const { data, isLoading, isError, isFetched } = useQuery({
-        queryKey: ['newreleases'],
+        queryKey:  [ sortType ],
         queryFn: async() => await paginateNewReleaseBooks(startIndex, sortType),
         staleTime: 10 * 1000 * 60,
     })
    
   return (
     <div className="w-full border h-auto">
-      <div className="grid grid-cols-4 gap-6 items-start ">    
-         {data?.data.items.map((item: Book) => (
-          <div key={item.id} className="card mb-0 rounded-none w-[270px] max-h-[370px] bg-white shadow-xl">
-            <figure className="w-full min-h-[220px]">
-              <Image
-                src={item.volumeInfo.imageLinks?.thumbnail}
-                alt={item.volumeInfo.title}
-                width={400}
-                height={300}
-                className="size-full h-auto border object-contain"
-              />
-            </figure>
-  
-            <div className="card-body mt-0 px-2">
-              <h2 className="card-title truncate text-ellipsis">{item.volumeInfo.title}</h2>
-  
-              <p>{item.volumeInfo.authors}</p>
-              <div className="mt-1 flex w-full">
-                <button className="p-2 bg-[#726a50] text-white">
-                  <p className="text-sm md:text-md lg:text-[15px] font-medium">
-                   {item.saleInfo.saleability}
-                  </p>
-                </button>
-              </div>
-            </div>
-          </div>
-         ))}
-      </div>
+        <Bookdisplaycards data={data}/>
 
       {/**PAGINATION */}
          <div className='border mt-[65px] mb-[40px] w-full '>
@@ -60,7 +34,7 @@ export default function FetchBookReleases ( { sortType }: { sortType: string}) {
 }
 
 
-function Paginate({ startIndex, setStartIndex, sort }: {
+export function Paginate({ startIndex, setStartIndex, sort }: {
             startIndex: number, 
             setStartIndex: React.Dispatch<React.SetStateAction<number>>,
             sort: string
@@ -84,12 +58,11 @@ function Paginate({ startIndex, setStartIndex, sort }: {
       
       if(startIndex) {
          mutateAsync(startIndex, {
-            onSuccess: () => queryClient.invalidateQueries({ queryKey: ['newreleases'] }),
+            onSuccess: () => queryClient.invalidateQueries({ queryKey: [sort] }),
          })
       }
   }
 
-  console.log('index', startIndex);
 
   return (
     <form action="">
