@@ -3,7 +3,7 @@
 import Bookdisplaycards from '@/app/components/bookdisplaycards';
 import { queryBook } from '@/lib/data';
 import { BASE_URL } from '@/lib/utils';
-import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -13,29 +13,30 @@ import PaginateSearch from './paginateSearch';
 
 export default function SearchQuery() {
   const params = useSearchParams()
-
   const searchterm = params.get('q') || '';
   const startIndex = params.get('startIndex') ? parseInt(params.get('startIndex')!, 10) : 0;
+  const filter = params.get('filter');
   const orderBy = params.get('orderBy') || 'newest';
   const [newStartIndex, setNewStartIndex] = useState<number>(startIndex);
+  const queryClient = useQueryClient();
   
   //append some query params if needed like genres and filters
   //INITIAL DATA
   const { data, isPending } = useQuery({
     queryKey: ['searchbook'],
-    queryFn:  () => axios.get(`${BASE_URL}?q=${searchterm}&startIndex=${newStartIndex}&maxResults=40&orderBy=${orderBy}`),
+    queryFn:  async () => await axios.get(`${BASE_URL}?q=${searchterm}&startIndex=${newStartIndex}&maxResults=40&orderBy=${orderBy}&filter=${filter ? filter : 'partial'}`),
     staleTime: 60 * 5 * 1000,
+    _optimisticResults: 'optimistic'
   })
 
 
+  useEffect(() => {
+     queryClient.invalidateQueries({ queryKey: ['searchbook'] })
+  }, [queryClient, searchterm])
+
   
-  /*const { data, isPending } = useMutation({
-     mutationKey: ['searchbook'],
-     mutationFn: async (form: FormData) => queryBook(form),
 
-  }) */
-
-  console.log(newStartIndex);
+  console.log(data);
 
    return (
      <div className="h-auto mt-[45px] overflow-y-auto w-full px-12">

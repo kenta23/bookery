@@ -3,38 +3,80 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import { ArrowDownUp } from 'lucide-react';
 import Image from 'next/image'
-import React from 'react'
+import React, { useCallback } from 'react'
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { title } from 'process';
+
 
 const filters = [
     {
        id: 1,
-       name: 'partial Free',
+       title: 'Partial free',
+       name: 'partial',
     },
 
     {
      id: 2,
-     name: 'Free',
+     title: 'Free',
+     name: 'full'
     },
     {
         id: 3,
-        name: 'Free-Ebook'
+        title: 'Free-ebook',
+        name: 'free-ebooks'
     },
     {
         id: 4,
-        name: 'Paid-Ebook'
+        title: 'Paid-ebook',
+        name: 'paid-ebooks'
     },
     {
         id: 5,
-        name: 'Ebook'
+        title: 'Ebook',
+        name: 'ebooks'
     }
 ]
+
+
 export default function Sidebar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const query = searchParams.get('q');
+  const startIndex = searchParams.get('startIndex') ? parseInt(searchParams.get('startIndex')!, 10) : 0;
+  const maxResults = searchParams.get('maxResults');
+  const orderBy = searchParams.get('orderBy');
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const { data, isPending } = useQuery({
+     queryKey: ['filter'],
+     queryFn: async () => await axios.get(``)
+  })
 
 
+  async function handleSubmit (filtername: string) {
+      let queryUrl;
+
+       if(pathname.startsWith('/newreleases')) {
+           queryUrl = `${pathname}/?q=${'newreleases'}&startIndex=${startIndex}&maxResults=40&orderBy=${'newest'}&filter=${filtername}`;
+       }
+       else {
+          queryUrl = `${pathname}/?q=${query}&startIndex=${startIndex}&maxResults=40&orderBy=${'relevance'}&filter=${filtername}`;      
+       } 
+
+       queryClient.invalidateQueries({
+        queryKey: ['searchbook'],
+       })
+        router.push(queryUrl);
+  }
+
+  
+  
   return (
     <div className="min-h-screen overflow-y-hidden px-3 py-2 top-0 w-[250px] bg-[#414037]">
       <div className=" mx-auto self-center">
@@ -59,7 +101,7 @@ export default function Sidebar() {
                 htmlFor="terms"
                 className="text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Adventrue
+                Adventure
               </label>
             </div>
           </form>
@@ -71,19 +113,17 @@ export default function Sidebar() {
         <div className="space-y-3">
           <h1 className="text-[#D7CC50] text-[25px]">Filter</h1>
 
-          <form action="w-full">
+          <RadioGroup defaultValue={filters[0].title}>
             {filters.map((filter) => (
                  <div key={filter.id} className="flex ms-3 items-center text-white space-x-2 space-y-3">
-                  <Checkbox id="terms"  className="border-white " />
-                  <label
-                    htmlFor="terms"
-                    className="text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    {filter.name}
-                  </label>
+                    <RadioGroupItem 
+                      value={filter.name} 
+                      onClick={() => handleSubmit(filter.name)} 
+                      className='text-white border-white border-[1px]' id={filter.title} />
+                    <label htmlFor={filter.title}>{filter.title}</label>
                 </div>
             ))}
-          </form>
+         </RadioGroup>
         </div>
       </div>
 
@@ -104,7 +144,7 @@ export default function Sidebar() {
                     Newest
                   </Link>
               </div>
-              <div aria-disabled={pathname === '/oldreleases'} className="flex ms-3 items-center text-white space-x-2 space-y-4">
+             {/**  <div aria-disabled={pathname === '/oldreleases'} className="flex ms-3 items-center text-white space-x-2 space-y-4">
                 <ArrowDownUp size={20} className={`${pathname === '/oldreleases' ? 'text-[#bb8e63]' : 'text-white'}`}/>
                 <Link
                     href={'/oldreleases'}
@@ -114,7 +154,7 @@ export default function Sidebar() {
                   >
                     Oldest
                   </Link>
-              </div>
+              </div> */}
           </div>
       </div>
 

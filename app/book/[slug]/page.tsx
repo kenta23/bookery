@@ -12,7 +12,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
      
   return (
     <div className='min-h-screen  w-full'>
-       
         <BookPreview data={data}/>    
     </div>
   )

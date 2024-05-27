@@ -3,13 +3,14 @@ import Image from 'next/image'
 import { Book } from '@/types'
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
+import Link from 'next/link';
 
 export default function Bookdisplaycards({ data }: { data: any }) {
 
   return (
     <div className="grid grid-cols-4 gap-6 items-start ">
       {data?.data.items.map((book: Book) => (
-        <div className="p-1" key={book.id}>
+        <Link role='main' href={`/book/${book.id}`} className="p-1 " key={book.id}>
          <Card className="max-w-full">   
             {/**BOOK THUMBNAIL */}
             <div className="w-full h-[200px]">
@@ -37,7 +38,7 @@ export default function Bookdisplaycards({ data }: { data: any }) {
 
 
          </Card>
-       </div>
+       </Link>
       ))}
     </div>
   );

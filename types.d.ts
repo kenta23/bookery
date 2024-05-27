@@ -96,3 +96,23 @@ export type Book = {
     accessInfo: AccessInfo;
     searchInfo: SearchInfo;
 };
+
+
+interface Author {
+    alternate_names: string[];
+    birth_date: string;
+    key: string;
+    name: string;
+    top_subjects: string[];
+    top_work: string;
+    type: string;
+    work_count: number;
+    _version_: number;
+  }
+  
+export interface AuthorInfo {
+    numFound: number;
+    start: number;
+    numFoundExact: boolean;
+    docs: Author[];
+}
