@@ -53,32 +53,37 @@ export default function Sidebar() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const { data, isPending } = useQuery({
-     queryKey: ['filter'],
-     queryFn: async () => await axios.get(``)
-  })
-
-
+  
   async function handleSubmit (filtername: string) {
       let queryUrl;
 
        if(pathname.startsWith('/newreleases')) {
            queryUrl = `${pathname}/?q=${'newreleases'}&startIndex=${startIndex}&maxResults=40&orderBy=${'newest'}&filter=${filtername}`;
-       }
+           
+           queryClient.invalidateQueries({
+            queryKey: ['newreleases'],
+           })      
+        }
        else {
-          queryUrl = `${pathname}/?q=${query}&startIndex=${startIndex}&maxResults=40&orderBy=${'relevance'}&filter=${filtername}`;      
+          queryUrl = `${pathname}/?q=${query}&startIndex=${startIndex}&maxResults=40&orderBy=${orderBy}&filter=${filtername}`;      
        } 
 
        queryClient.invalidateQueries({
         queryKey: ['searchbook'],
        })
-        router.push(queryUrl);
+       router.push(queryUrl);
   }
 
-  
+  function handleSort(sort: string) { 
+    queryClient.invalidateQueries({
+       queryKey: ['searchbook']
+    });
+     router.push(`${pathname}/?q=${query}&startIndex=${startIndex}&maxResults=40&orderBy=${sort}`);
+  }
   
   return (
-    <div className="min-h-screen overflow-y-hidden px-3 py-2 top-0 w-[250px] bg-[#414037]">
+    <div className="min-h-screen overflow-y-hidden px-1 sm:px-3 py-2 
+      top-0 w-[250px] bg-[#414037]">
       <div className=" mx-auto self-center">
         <Image
           src={"logo no text.svg"}
@@ -86,65 +91,82 @@ export default function Sidebar() {
           width={200}
           height={200}
           priority
+          className='size-[120px] sm:size[250px]'
         />
       </div>
 
-      {/**GENRES */}
-      <div className="mt-2 border-b-2 pb-3 border-b-white">
-        <div className="space-y-3">
-          <h1 className="text-[#D7CC50] text-[25px]">Genre</h1>
-
-          <form action="w-full">
-            <div className="flex ms-3 items-center text-white space-x-2">
-              <Checkbox id="terms" className="border-white" />
-              <label
-                htmlFor="terms"
-                className="text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Adventure
-              </label>
-            </div>
-          </form>
-        </div>
-      </div>
-
+     
       {/**FILTERS */}
-      <div className="mt-2 border-b-2 pb-3 border-b-white">
+      <div className="mt-2 border-b-[1px] pb-3 border-b-white">
         <div className="space-y-3">
-          <h1 className="text-[#D7CC50] text-[25px]">Filter</h1>
+          <h1 className="text-[#D7CC50] text-[18px] sm:text-[25px]">Filter</h1>
 
-          <RadioGroup defaultValue={filters[0].title}>
+          <RadioGroup className='flex flex-col ms-3 items-start text-white space-y-2' defaultValue={filters[0].title}>
             {filters.map((filter) => (
-                 <div key={filter.id} className="flex ms-3 items-center text-white space-x-2 space-y-3">
-                    <RadioGroupItem 
-                      value={filter.name} 
-                      onClick={() => handleSubmit(filter.name)} 
-                      className='text-white border-white border-[1px]' id={filter.title} />
-                    <label htmlFor={filter.title}>{filter.title}</label>
-                </div>
+              <div
+                key={filter.id}
+                className="flex items-center text-white space-x-2"
+              >
+                <RadioGroupItem
+                  value={filter.name}
+                  onClick={() => handleSubmit(filter.name)}
+                  className="text-white border-white border-[1px]"
+                  id={filter.title}
+                />
+                <label htmlFor={filter.title} className='text-sm sm:text-md md:text-lg'>{filter.title}</label>
+              </div>
             ))}
-         </RadioGroup>
+          </RadioGroup>
         </div>
       </div>
-
 
       {/**SORT */}
-      <div className="mt-2 border-b-2 pb-3 border-b-white">
-          <div className='space-y-3'>
-              <h1 className="text-[#D7CC50] text-[25px]">Sort</h1>
+      <div className="mt-2 border-b-[1px] pb-3 border-b-white">
+        <div className="space-y-3">
+          <h1 className="text-[#D7CC50] text-[18px] sm:text-[25px]">Sort</h1>
+          <div
+            className="flex ms-3 items-center text-white space-x-2 space-y-3"
+          >
+            <ArrowDownUp
+              size={20}
+              className={`${
+                orderBy === "newest" ? "text-[#bb8e63]" : "text-white"
+              }`}
+            />
+            <button
+              onClick={() => handleSort('newest')}
+              className={cn(
+                `text-sm sm:text-md md:text-lg cursor-pointer font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70`, {
+                    "text-[#bb8e63]": orderBy === 'newest'
+                }
+              )}
+            >
+              Newest
+            </button>
+          </div>
 
-              <div aria-disabled={pathname === '/newreleases'} className="flex ms-3 items-center text-white space-x-2 space-y-3">
-              <ArrowDownUp size={20} className={`${pathname === '/newreleases' ? 'text-[#bb8e63]' : 'text-white'}`}/>
-                <Link
-                    href={'/newreleases'}
-                    aria-selected={pathname === '/newrelease'}
-                    className={cn(`text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70`, 
-                       pathname === '/newreleases' ? 'text-[#bb8e63]' : '')}
-                  >
-                    Newest
-                  </Link>
-              </div>
-             {/**  <div aria-disabled={pathname === '/oldreleases'} className="flex ms-3 items-center text-white space-x-2 space-y-4">
+
+          <div
+            className="flex ms-3 items-center text-white space-x-2 space-y-3"
+          >
+            <ArrowDownUp
+              size={20}
+              className={`${
+                orderBy === "relevance" ? "text-[#bb8e63]" : "text-white"
+              }`}
+            />
+            <button
+              onClick={() => handleSort('relevance')}
+              className={cn(
+                `text-sm sm:text-md md:text-lg cursor-pointer font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70`, {
+                    "text-[#bb8e63]": orderBy === 'relevance'
+                }
+              )}
+            >
+              Relevance
+            </button>
+          </div>
+          {/**  <div aria-disabled={pathname === '/oldreleases'} className="flex ms-3 items-center text-white space-x-2 space-y-4">
                 <ArrowDownUp size={20} className={`${pathname === '/oldreleases' ? 'text-[#bb8e63]' : 'text-white'}`}/>
                 <Link
                     href={'/oldreleases'}
@@ -155,7 +177,7 @@ export default function Sidebar() {
                     Oldest
                   </Link>
               </div> */}
-          </div>
+        </div>
       </div>
 
       {/**CATEGORIES */}

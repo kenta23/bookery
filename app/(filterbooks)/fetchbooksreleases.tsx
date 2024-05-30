@@ -1,7 +1,7 @@
 'use client'
 
 
-import React, { useState, useTransition } from 'react'
+import React, { useEffect, useState, useTransition } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import Image from 'next/image'
@@ -13,14 +13,17 @@ export default function FetchBookReleases ( { sortType }: { sortType: string}) {
 
     const [startIndex, setStartIndex] = useState<number>(0);
     const maxValue: number = 20;
-
+    const queryClient = useQueryClient();
+    
 
     const { data, isLoading, isError, isFetched } = useQuery({
-        queryKey:  [ sortType ],
+        queryKey:  ['newreleases'],
         queryFn: async() => await paginateNewReleaseBooks(startIndex, sortType),
         staleTime: 10 * 1000 * 60,
     })
-   
+
+    
+  
   return (
     <div className="w-full border h-auto">
         <Bookdisplaycards data={data}/>

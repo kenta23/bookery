@@ -12,15 +12,69 @@ import Image from 'next/image';
 import { BookOpenText, Heart, Slash } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { addToFavorites } from '../actions/bookdata';
+import { useToast } from '@/components/ui/use-toast';
+import { ToastAction } from '@/components/ui/toast';
+import axios from 'axios';
+import { Check } from 'lucide-react';
 
 
 export default function BookHeader({ data }: { data: Book}) {
+
+    const { data: isFavorite } = useQuery({
+       queryKey: ['isFavorite', data.id],
+       queryFn: async () => await axios.get('/api/favorite', {
+        params: { bookId: data.id }
+      }),
+       enabled: !!data.id, 
+       staleTime: 5 * 60 * 1000 //5 minutes
+    })
+
+    const { isSuccess, mutate, data: response } = useMutation({
+      mutationKey: ['deletebook'],
+      mutationFn: async (id: string) => await addToFavorites(id) 
+    })
+
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+   async function handleSubmit () {
+         mutate(data.id, {
+            onSuccess: () => {
+              toast({ 
+                title: isFavorite?.data ? 'Book removed from favorites' : 'Book added to favorites',
+                duration: 2000,
+                variant: 'default',
+             }),
+             queryClient.invalidateQueries({
+               queryKey: ['isFavorite', data.id, ]
+             })
+
+             queryClient.invalidateQueries({
+              queryKey: ['favoriteBooks']
+            })
+            },
+            onError: () => {
+                toast({
+                    title: 'Something went wrong',
+                    description: "there was a problem in your request",
+                    variant: 'destructive',
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                })
+            }
+         })
+   } 
+
+   console.log('MY FAVORITES', isFavorite?.data);
+  
   return (
     <div className="flex w-full flex-row gap-4 justify-around items-center">
       <div className="flex flex-col gap-2">
         {/**BREADCRUMBS */}
         <Breadcrumb>
-          <BreadcrumbList>
+          <BreadcrumbList className="text-gray-600">
             <BreadcrumbItem>
               <BreadcrumbLink href="/">Home</BreadcrumbLink>
             </BreadcrumbItem>
@@ -28,7 +82,7 @@ export default function BookHeader({ data }: { data: Book}) {
               <Slash />
             </BreadcrumbSeparator>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/newreleases">New Releases</BreadcrumbLink>
+              <BreadcrumbLink href="/books">Books</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator>
               <Slash />
@@ -84,12 +138,9 @@ export default function BookHeader({ data }: { data: Book}) {
       <div className="flex flex-col gap-8 items-start w-auto min-w-[300px] max-w-[450px] h-auto">
         <div className="flex flex-col gap-2">
           <h1
-            className={cn(
-              "text-[#DF4E1E]",
-              data.volumeInfo.title.length >= 100
-                ? "text-[28px]"
-                : "text-[38px]"
-            )}
+            className={cn("text-[#DF4E1E] text-[38px]", {
+              "text-[28px]": data.volumeInfo.title.length >= 100,
+            })}
           >
             {data.volumeInfo.title}
           </h1>
@@ -140,7 +191,18 @@ export default function BookHeader({ data }: { data: Book}) {
               <span className="text-[20px]">Purchase</span>
             </Link>
           )}
-          <Heart size={40} cursor={"pointer"} className="text-[#DF4E1E]" />
+          {/**ADD TO FAVORITES FUNCTION */}
+          <Heart
+            size={40}
+            cursor={"pointer"}
+            className={cn(
+              `hover:scale-110  transition-all duration-150 ease-linear`,
+              isFavorite?.data
+                ? "fill-[#DF4E1E] text-[#DF4E1E]"
+                : "text-[#DF4E1E] "
+            )}
+            onClick={handleSubmit}
+          />
         </div>
       </div>
     </div>

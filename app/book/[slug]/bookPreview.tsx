@@ -10,9 +10,11 @@ import BookHeader from '../bookHeader';
 import BookInfo from '../bookInfo';
 import Authorinfo from '../authorinfo';
 import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 export default function BookPreview({ data }: { data: Book}) {
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     useEffect(() => {
           async function fetchData() {
@@ -25,9 +27,16 @@ export default function BookPreview({ data }: { data: Book}) {
 
           fetchData();
     }, [data, queryClient])
+
+    console.log(data);
   return (
     <div className="w-full">
-      <ChevronLeft size={32} className="my-4" />
+      <ChevronLeft 
+              onClick={() => router.back()} 
+              size={32} 
+              className="my-6 ms-[60px]" 
+              cursor={'pointer'}
+        />
 
       {/** BOOK INFO */}
        <BookHeader data={data}/>

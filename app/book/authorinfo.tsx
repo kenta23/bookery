@@ -52,10 +52,10 @@ export default function Authorinfo({ author }: { author: any }) {
           <div className='flex flex-row gap-12 items-start'>
               <Image 
                  alt='authors image'
-                 width={500}
-                 height={500}
-                 className='rounded-full size-[120px]'
-                 src={profile.length ? profile : '/no profile.png'}
+                 width={1000}
+                 height={1000}
+                 className='rounded-full object-cover size-[120px]'
+                 src={profile || '/no profile.png'}
                />
 
                <div className='flex items-start flex-col gap-1'>

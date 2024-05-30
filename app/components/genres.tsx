@@ -30,7 +30,7 @@ export default function Genres() {
 
   return (
     <div className='w-full bg-gradient-to-b from-[#F3EFDF] to-[#7C5131] flex items-center justify-center py-24 px-6'> 
-          <div className='grid grid-cols-2 gap-16 items-center'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-16 items-center'>
             {categories.map((category) => (
                 <Link href={`/genre/${category.name}`} key={category.id} className='w-[300px] relative bg-slate-200 h-[170px] rounded-lg '>
                      <Image 

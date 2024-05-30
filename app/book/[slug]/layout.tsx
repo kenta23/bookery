@@ -1,5 +1,5 @@
+import Booknavbar from "@/app/components/booknavbar";
 
-import Booknavbar from "@/app/components/booknavbar"
 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

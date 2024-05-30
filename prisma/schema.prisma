@@ -22,7 +22,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-
+  favoriteBooks FavoriteBooks[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -64,5 +64,14 @@ model VerificationToken {
   expires    DateTime
  
   @@id([identifier, token])
+}
+
+model FavoriteBooks {
+   id   Int @id @default(autoincrement())
+   bookId String 
+   userid String 
+   user  User @relation(fields: [userid], references: [id], onDelete: Cascade) 
+   createdAt DateTime @default(now())
+   updatedAt DateTime @updatedAt    
 }
 

@@ -1,12 +1,8 @@
 import NextAuth from 'next-auth'
-import Credentials from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import { PrismaNeon } from "@prisma/adapter-neon"
-import { Pool } from "@neondatabase/serverless"
 import Github from 'next-auth/providers/github'
-import Facebook from 'next-auth/providers/facebook'
 import Google from 'next-auth/providers/google'
 import Twitter from 'next-auth/providers/twitter'
 import { Provider } from "next-auth/providers"
@@ -65,5 +61,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
      providers,
      pages: {
          signIn: '/sign-in'
+     },
+     session: { 
+       strategy: 'database'
+     },
+
+     callbacks: {
+         session({ user, session })  {
+               session.user.id === user.id
+               return session
+         }
+         
      }
 })

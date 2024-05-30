@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import Navbar from './navbar'
 import Hero from './Hero'
@@ -9,13 +11,14 @@ import axios from 'axios';
 import Genres from './genres'
 import Newsletter from './newsletter'
 import Footer from './footer'
+import { useSession } from 'next-auth/react'
 
 
 export default function Homepage() {
-
+   const session = useSession();
   return (
     <div className='w-full min-w-full h-auto'>
-      <div className='min-h-min px-24 py-6 pb-8 bg-gradient-to-br from-[#F6F4DD] to-[#F6DBB2]'>
+      <div className='min-h-min px-8 sm:px-10 md:px-24 py-6 pb-8 bg-gradient-to-br from-[#F6F4DD] to-[#F6DBB2]'> 
          <Navbar />
          <Hero /> 
 
@@ -26,7 +29,7 @@ export default function Homepage() {
               <h1 className='text-[30px] text-ellipsis font-normal'>
                   New high quality books now accessible in many countries
               </h1>
-              <p className='text-[16px] md:text-[20px] text-accentColor font-medium uppercase'>Order Now!</p>
+              <p className='text-[16px] md:text-[20px] text-accentColor font-medium uppercase'>Explore now</p>
          </div>
 
 

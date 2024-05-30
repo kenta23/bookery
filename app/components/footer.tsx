@@ -4,8 +4,8 @@ import React from 'react'
 
 export default function Footer() {
   return (
-    <div className="mt-[88px] w-full pt-6 lg:pt-12 px-4 bg-[#1B1A16]">
-      <div className="flex flex-col gap-y-12 md:flex-row w-full items-center">
+    <div className="mt-[88px] w-full pt-6 lg:pt-12 md:px-4 bg-[#1B1A16]">
+      <div className="flex  px-6 sm:px-0 flex-col gap-y-12 sm:flex-row w-full items-center">
         <div className="flex flex-col items-center ">
           <Image
             src={"/logo no text.svg"}
@@ -73,12 +73,15 @@ export default function Footer() {
 
 
         {/**LINKS */}
-         <div className='flex ms-0 md:ms-[40px] lg:ms-[200px] gap-[25px] md:gap-[80px] lg:gap-[120px] justify-items-end  items-start flex-row'>
+         <div className='flex ms-0 md:ms-[40px] 
+                 lg:ms-[200px] 
+                 gap-[25px] md:gap-[80px]
+                 lg:gap-[120px] justify-items-end  items-start flex-row'>
              {/**ABOUT */}
              <div className='flex flex-col text-white gap-2'>
-                  <h1 className='font-medium text-[25px]'>About</h1>
+                  <h1 className='font-medium text-lg sm:text-[20px] md:text-[25px]'>About</h1>
 
-                  <ul className='flex flex-col font-light text-[18px]'>
+                  <ul className='flex flex-col font-light text-sm sm:text-md md:text-lg'>
                       <li>blogs</li>
                       <li>our story</li>
                       <li>made with care</li>
@@ -86,18 +89,17 @@ export default function Footer() {
              </div>
              {/**STORES */}
              <div className='flex flex-col text-white gap-2'>
-                  <h1 className='font-medium text-[25px]'>Stores</h1>
+                 <h1 className='font-medium text-lg sm:text-[20px] md:text-[25px]'>About</h1>
 
-                  <ul className='flex flex-col font-light text-[18px]'>
+                 <ul className='flex flex-col font-light text-sm sm:text-md md:text-lg'>
                       <li>online shop</li>
                       <li>physical stores</li>
                   </ul>
              </div>
              {/**SERVICES */}
              <div className='flex flex-col text-white gap-2'>
-                  <h1 className='font-medium text-[25px]'>Services</h1>
-
-                  <ul className='flex flex-col font-light text-[18px]'>
+                  <h1 className='font-medium text-lg sm:text-[20px] md:text-[25px]'>About</h1>
+                  <ul className='flex flex-col font-light text-sm sm:text-md md:text-lg'>
                       <li>delivery</li>
                       <li>book buying</li>
                       <li>book trading</li>
@@ -106,9 +108,9 @@ export default function Footer() {
 
              {/**CAREERS */}
              <div className='flex flex-col text-white gap-2'>
-                  <h1 className='font-medium text-[25px]'>Careers</h1>
+                  <h1 className='font-medium text-lg sm:text-[20px] md:text-[25px]'>About</h1>
 
-                  <ul className='flex flex-col font-light text-[18px]'>
+                  <ul className='flex flex-col font-light text-sm sm:text-md md:text-lg'>
                       <li>Available position</li>
                   </ul>
              </div>
@@ -116,13 +118,13 @@ export default function Footer() {
       </div>
      
 
-      <div className='w-full mt-[55px] pb-[25px] flex items-center justify-between'>
-        <div className='flex text-[14px] text-white items-center gap-3'>
+      <div className='w-full  mt-[55px] px-4 pb-[25px] flex items-center justify-center sm:justify-between'>
+        <div className='flex text-[12px]  md:text-[14px] text-white items-center gap-3'>
             <span>Terms and conditions</span>
             <span>Privacy and Policy</span>
         </div>
 
-         <p className="text-[14px] text-white">
+         <p className="text-[12px] md:text-[14px] text-white">
             Copyright © 2024 Bookery. All rights reserved.
          </p>
       </div>

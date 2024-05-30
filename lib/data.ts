@@ -4,6 +4,10 @@ import { BASE_URL } from "./utils";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 import { AuthorInfo } from "@/types";
+import { auth } from "@/auth";
+import { withAccelerate } from "@prisma/extension-accelerate";
+import { PrismaClient } from "@prisma/client/edge";
+
 
 export async function initialData() {
      const data = await fetch('https://www.googleapis.com/books/v1/volumes?q=intitle:Harry%20Potter%20and%20the%20Sorcerer%27s%20Stone', {
@@ -43,4 +47,27 @@ export async function filterBooks (query: string, startIndex: string, maxResults
       return await axios.get(`${BASE_URL}?q=${query}&startIndex=${startIndex})}&maxResults=${maxResults}&orderBy=${orderBy}&filter=${filter}`);
 }
 
-
+export async function getAllfavoriteBooks() {
+      const session = await auth();
+      const prisma = new PrismaClient().$extends(withAccelerate());
+  
+      if(!session?.user) {
+             return redirect('/');
+      }
+     try {
+        const data = await prisma.favoriteBooks.findMany({
+            where: {
+               userid: session.user.id 
+            },  
+            cacheStrategy: { swr: 60, ttl: 120 }     
+        })
+        
+        console.log('RES FROM BACKEND ', data);
+        return JSON.parse(JSON.stringify(data))
+  
+      } catch (error) {
+         console.log(error);
+         throw new Error();
+     }
+      
+  }

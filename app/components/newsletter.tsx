@@ -14,9 +14,10 @@ export default function Newsletter() {
          </div>
 
 
-         <div className=''>
-              <input type="text" className='px-4 w-[350px] py-3 bg-white outline-none' placeholder='Enter your email' />
-              <button className='px-4 py-3 bg-accentColor text-white ' type='submit'>
+         <div className='flex flex-col gap-4 sm:block'>
+              <input type="text" className='px-4 w-[300px] md:w-[350px] py-3 bg-white outline-none' 
+                 placeholder='Enter your email' />
+              <button className='px-4 py-3  bg-accentColor text-white ' type='submit'>
                  <p>Subscribe</p>
               </button>
          </div>

@@ -5,6 +5,8 @@ import './newsletterbg.css'
 import ReactQueryProvider from "./providers/ReactQueryProvider";
 import Script from "next/script";
 import Footer from "./components/footer";
+import { SessionProvider } from "next-auth/react";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +30,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={aleo.className}>
          <ReactQueryProvider>
-              {children}
+              <SessionProvider>
+                 {children}
+                 <Toaster />
+              </SessionProvider>
          </ReactQueryProvider>
       </body>
     </html>

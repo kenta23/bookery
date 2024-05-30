@@ -36,8 +36,6 @@ export default function SearchQuery() {
 
   
 
-  console.log(data);
-
    return (
      <div className="h-auto mt-[45px] overflow-y-auto w-full px-12">
        {/**FETCH ALL THE ALL NEW RELEASES BOOK */}
