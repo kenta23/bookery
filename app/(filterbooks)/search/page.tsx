@@ -12,7 +12,7 @@ import PaginateSearch from './paginateSearch';
 
 
 export default function SearchQuery() {
-  const params = useSearchParams()
+  const params = useSearchParams();
   const searchterm = params.get('q') || '';
   const startIndex = params.get('startIndex') ? parseInt(params.get('startIndex')!, 10) : 0;
   const filter = params.get('filter');
