@@ -1,10 +1,8 @@
-'use client'
 
 import React, { Suspense, } from 'react'
 import SearchQuery from './searchquery';
 
-
-export default function SearchPage() {
+export default function Page() {
   return (
     <Suspense fallback={<p>Loading...</p>}>
        <SearchQuery />
