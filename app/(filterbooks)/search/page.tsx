@@ -6,12 +6,12 @@ import { BASE_URL } from '@/lib/utils';
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { Paginate } from '../fetchbooksreleases';
 import PaginateSearch from './paginateSearch';
 
 
-export default function SearchQuery() {
+export function SearchQuery() {
   const params = useSearchParams();
   const searchterm = params.get('q') || '';
   const startIndex = params.get('startIndex') ? parseInt(params.get('startIndex')!, 10) : 0;
@@ -57,4 +57,12 @@ export default function SearchQuery() {
          </div>
      </div>
    );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <SearchQuery />
+    </Suspense>
+  );
 }

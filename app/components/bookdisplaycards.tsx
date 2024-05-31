@@ -9,9 +9,6 @@ import { usePathname } from 'next/navigation';
 export default function Bookdisplaycards({ data }: { data: any }) {
   const pathname = usePathname();
 
-
-  console.log('BOOK DATA', data)
-
   return (
     <div className="grid grid-cols-1 
         md:grid-cols-2 lg:grid-cols-4 gap-2 
