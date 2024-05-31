@@ -1,7 +1,7 @@
 'use client'
 
 import { Metadata } from 'next'
-import React from 'react'
+import React, { Suspense } from 'react'
 import Sidebar from './sidebar'
 import Navbar from '../components/navbar'
 import { SessionProvider } from 'next-auth/react'
@@ -11,6 +11,10 @@ import { usePathname, useRouter } from 'next/navigation'
 import { ChevronLeft } from 'lucide-react'
 import Booknavbar from '../components/booknavbar'
 
+
+function SearchBarFallback() {
+  return <>placeholder</>
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
    const pathname = usePathname();
@@ -28,7 +32,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               className="mt-6 ms-[15px] sm:ms-[40px] md::ms-[50px]" 
               cursor={'pointer'}
             />
-          {children}
+         <Suspense fallback={<SearchBarFallback />}>
+            {children}
+         </Suspense>
         </div>
       </div>
   );
