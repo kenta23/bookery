@@ -3,7 +3,6 @@
 import React from 'react'
 import CarouselNewReleases from './carousel'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { getNewReleasesBooks } from '@/lib/data'
 

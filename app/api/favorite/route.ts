@@ -5,6 +5,8 @@ import { NextApiRequest } from "next";
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
+export const runtime = 'edge';
+
 
 export async function GET(req: NextRequest) {
     const session = await auth();

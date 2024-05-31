@@ -4,6 +4,8 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
+export const runtime = 'edge';
+
 
 export async function GET(req: Request, res: Response) {
     const session = await auth();
