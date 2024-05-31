@@ -4,11 +4,12 @@ import Image from 'next/image'
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useSession } from 'next-auth/react'
 import UserButton from './UserButton'
+
+
 export default function Navbar() {
    const pathname = usePathname();
-   const session = useSession();
+
    
   return (
     <div className="mx-auto flex px-0 md:px-6 flex-row items-center justify-between  w-full">

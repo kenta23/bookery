@@ -19,8 +19,8 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    } 
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/bookpreview.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/bookpreview.js", "__tests__/index.test.tsx"],
   "exclude": ["node_modules"]
 }

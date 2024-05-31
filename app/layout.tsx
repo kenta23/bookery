@@ -3,8 +3,6 @@ import {  Aleo, Inter } from "next/font/google";
 import "./globals.css";
 import './newsletterbg.css'
 import ReactQueryProvider from "./providers/ReactQueryProvider";
-import Script from "next/script";
-import Footer from "./components/footer";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
 

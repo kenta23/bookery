@@ -12,13 +12,12 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog";
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { LogOut, Menu, Settings } from 'lucide-react';
+import { signOut, useSession } from 'next-auth/react';
+import { LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-
 
 
 export default function UserButton() {

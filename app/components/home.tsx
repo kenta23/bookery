@@ -3,19 +3,15 @@
 import React from 'react'
 import Navbar from './navbar'
 import Hero from './Hero'
-import CarouselNewReleases from './carousel'
 import Newreleases from './newreleases'
-import { useQuery } from '@tanstack/react-query'
-import { initialData } from '@/lib/data'
-import axios from 'axios';
 import Genres from './genres'
 import Newsletter from './newsletter'
 import Footer from './footer'
-import { useSession } from 'next-auth/react'
+
 
 
 export default function Homepage() {
-   const session = useSession();
+
   return (
     <div className='w-full min-w-full h-auto'>
       <div className='min-h-min px-8 sm:px-10 md:px-24 py-6 pb-8 bg-gradient-to-br from-[#F6F4DD] to-[#F6DBB2]'> 
