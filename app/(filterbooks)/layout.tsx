@@ -22,7 +22,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
       <div className="flex bg-[#F8F6EA] min-w-full max-h-screen overflow-hidden">
-      {pathname !== '/books' &&  <Sidebar />}
+      {pathname !== '/books' && 
+       <Suspense  fallback={<p>Loading</p>}> 
+        <Sidebar />
+      </Suspense>}
 
         <div className="w-full overflow-y-auto overflow-x-hidden space-y-3">
           <Booknavbar />
