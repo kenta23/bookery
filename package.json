@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "prisma generate && next build",
+    "build": "prisma generate --accelerate && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate --accelerate"
   },
   "dependencies": {
     "@auth/core": "^0.30.0",
