@@ -36,9 +36,10 @@ export default function Hero() {
               <div>
                    <Image 
                      src={'/books-group.svg'}
-                     width={350}
-                     height={350}
+                     width={500}
+                     height={500}
                      alt='Books display'
+                     className='w-[270px] md:w-[300px] lg:w-[360px] h-auto'
                      priority
                    />
               </div>
