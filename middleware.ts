@@ -2,7 +2,7 @@ import { auth } from "./auth"
 
 
 export default auth((req) => {
-    const protectedRoutes = ['/favorites', '/book', '/api'];
+    const protectedRoutes = ['/favorites', '/book'];
     const isProtected = protectedRoutes.some(route => req.nextUrl.pathname.startsWith(route));
 
     if (!req.auth?.user && isProtected) {
@@ -13,4 +13,4 @@ export default auth((req) => {
 
 export const config = {
     matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
-}
+} 
