@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import { auth } from "./auth"
 
 
@@ -8,9 +9,13 @@ export default auth((req) => {
     if (!req.auth?.user && isProtected) {
         const newUrl = new URL("/sign-in", req.nextUrl.origin) 
         return Response.redirect(newUrl)
-      }
-  })
+    }
+
+    if(req.auth?.user && req.nextUrl.pathname.startsWith('/sign-in')) {
+         return NextResponse.rewrite(new URL('/', req.url))
+    } 
+})
 
 export const config = {
-    matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 } 
